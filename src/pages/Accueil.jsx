@@ -1,35 +1,19 @@
 import { useState } from "react";
-import ListeArticles from "../components/ListeArticles";
-import BarreRecherche from "../components/BarreRecherche";
-import { articlesDeTest } from "../donnees-test";
+import Articles from "./Articles";
+import Article from "./Article";
+import Auteurs from "./Auteurs";
+import Auteur from "./Auteur";
 
-// Page d'accueil : présentation et les derniers articles.
 export default function Accueil() {
-  const [favoris, setFavoris] = useState([]);
-  const [recherche, setRecherche] = useState("");
-
-  function basculerFavori(article) {
-    setFavoris((prev) =>
-      prev.some((f) => f.id === article.id)
-        ? prev.filter((f) => f.id !== article.id)
-        : [...prev, article]
-    );
-  }
-
-  const visibles = articlesDeTest.filter((a) =>
-    a.title.toLowerCase().includes(recherche.toLowerCase())
-  );
-
+  const [id, setId] = useState(1);
   return (
-    <section>
-      <h1>Derniers articles</h1>
-      <p>Favoris : {favoris.length}</p>
-      <BarreRecherche valeur={recherche} onChange={setRecherche} />
-      <ListeArticles
-        articles={visibles}
-        favoris={favoris}
-        onBasculerFavori={basculerFavori}
-      />
-    </section>
+    <>
+      <button onClick={() => setId(id + 1)}>Suivant (id {id})</button>
+      <button onClick={() => setId(999)}>Id inexistant</button>
+      <Articles />
+      <Article id={id} />
+      <Auteurs />
+      <Auteur id={id} />
+    </>
   );
 }
