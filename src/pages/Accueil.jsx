@@ -1,10 +1,12 @@
 import { useState } from "react";
-import ArticleCard from "../components/ArticleCard";
+import ListeArticles from "../components/ListeArticles";
+import BarreRecherche from "../components/BarreRecherche";
 import { articlesDeTest } from "../donnees-test";
 
 // Page d'accueil : présentation et les derniers articles.
 export default function Accueil() {
   const [favoris, setFavoris] = useState([]);
+  const [recherche, setRecherche] = useState("");
 
   function basculerFavori(article) {
     setFavoris((prev) =>
@@ -14,17 +16,20 @@ export default function Accueil() {
     );
   }
 
-  function estFavori(article) {
-    return favoris.some((f) => f.id === article.id);
-  }
+  const visibles = articlesDeTest.filter((a) =>
+    a.title.toLowerCase().includes(recherche.toLowerCase())
+  );
 
   return (
     <section>
       <h1>Derniers articles</h1>
       <p>Favoris : {favoris.length}</p>
-      <ArticleCard article={articlesDeTest[0]} estFavori={estFavori(articlesDeTest[0])} onBasculerFavori={basculerFavori} />
-      <ArticleCard article={articlesDeTest[1]} estFavori={estFavori(articlesDeTest[1])} onBasculerFavori={basculerFavori} />
-      <ArticleCard article={articlesDeTest[2]} estFavori={estFavori(articlesDeTest[2])} onBasculerFavori={basculerFavori} />
+      <BarreRecherche valeur={recherche} onChange={setRecherche} />
+      <ListeArticles
+        articles={visibles}
+        favoris={favoris}
+        onBasculerFavori={basculerFavori}
+      />
     </section>
   );
 }
