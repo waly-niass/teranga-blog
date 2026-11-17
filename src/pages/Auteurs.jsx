@@ -1,50 +1,42 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router";
 import { API_URL } from "../constants";
 import EtatRequete from "../components/EtatRequete";
 
-export default function Auteur({ id }) {
-  const [auteur, setAuteur] = useState(null);
-  const [articles, setArticles] = useState([]);
+export default function Auteurs() {
+  const [auteurs, setAuteurs] = useState([]);
   const [chargement, setChargement] = useState(true);
   const [erreur, setErreur] = useState(null);
 
   useEffect(() => {
     const controller = new AbortController();
     async function charger() {
-      setChargement(true);
-      setErreur(null);
       try {
-        const [rU, rP] = await Promise.all([
-          fetch(`${API_URL}/users/${id}`, { signal: controller.signal }),
-          fetch(`${API_URL}/posts?userId=${id}`, { signal: controller.signal }),
-        ]);
-        if (!rU.ok || !rP.ok) throw new Error("Introuvable");
-        setAuteur(await rU.json());
-        setArticles(await rP.json());
+        const res = await fetch(`${API_URL}/users`, { signal: controller.signal });
+        if (!res.ok) throw new Error(`Erreur ${res.status}`);
+        setAuteurs(await res.json());
       } catch (e) {
-        if (e.name !== "AbortError") setErreur("Auteur introuvable ou erreur réseau.");
+        if (e.name !== "AbortError") setErreur("Impossible de charger les auteurs.");
       } finally {
         if (!controller.signal.aborted) setChargement(false);
       }
     }
     charger();
     return () => controller.abort();
-  }, [id]);
+  }, []);
 
   return (
-    <EtatRequete chargement={chargement} erreur={erreur}>
-      {auteur && (
-        <section>
-          <h1>{auteur.name}</h1>
-          <p>{auteur.email} · {auteur.company.name}</p>
-          <h2>Ses articles</h2>
-          <ul>
-            {articles.map((p) => (
-              <li key={p.id}>{p.title}</li>
-            ))}
-          </ul>
-        </section>
-      )}
-    </EtatRequete>
+    <section>
+      <h1>Auteurs</h1>
+      <EtatRequete chargement={chargement} erreur={erreur}>
+        <ul>
+          {auteurs.map((u) => (
+            <li key={u.id}>
+              <Link to={`/auteurs/${u.id}`}>{u.name}</Link> ({u.company.name})
+            </li>
+          ))}
+        </ul>
+      </EtatRequete>
+    </section>
   );
 }

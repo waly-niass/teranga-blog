@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
+import { useOutletContext } from "react-router";
 import { API_URL } from "../constants";
 import BarreRecherche from "../components/BarreRecherche";
 import ListeArticles from "../components/ListeArticles";
 import EtatRequete from "../components/EtatRequete";
 
 export default function Articles() {
+  const { favoris, basculerFavori } = useOutletContext();
   const [articles, setArticles] = useState([]);
   const [chargement, setChargement] = useState(true);
   const [erreur, setErreur] = useState(null);
   const [recherche, setRecherche] = useState("");
-  const [favoris, setFavoris] = useState([]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -27,14 +28,6 @@ export default function Articles() {
     charger();
     return () => controller.abort();
   }, []);
-
-  function basculerFavori(article) {
-    setFavoris((prev) =>
-      prev.some((f) => f.id === article.id)
-        ? prev.filter((f) => f.id !== article.id)
-        : [...prev, article]
-    );
-  }
 
   const visibles = articles.filter((a) =>
     a.title.toLowerCase().includes(recherche.toLowerCase())
