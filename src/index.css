@@ -1,0 +1,34 @@
+/* Feuille de style de départ : le projet évalue React, pas le CSS.
+   Tu peux l'utiliser telle quelle, la modifier, ou demander à une IA de réécrire tout le CSS
+   et de placer les classes (className) dans ton JSX : c'est la seule aide complète autorisée. */
+:root {
+  --fond: #f7f8fa;
+  --texte: #1f1f1f;
+  --discret: #666666;
+  --accent: #0b6e4f;
+  --bord: #dddddd;
+  --erreur: #b3261e;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: system-ui, Arial, sans-serif;
+  background: var(--fond);
+  color: var(--texte);
+  line-height: 1.6;
+}
+.conteneur { max-width: 960px; margin: 0 auto; padding: 1.5rem 1rem; }
+.barre-nav { background: #fff; border-bottom: 1px solid var(--bord); }
+.barre-nav .conteneur { display: flex; gap: 1.25rem; align-items: center; flex-wrap: wrap; }
+.barre-nav a { color: var(--texte); text-decoration: none; padding: .25rem 0; }
+.barre-nav a.active { color: var(--accent); border-bottom: 2px solid var(--accent); font-weight: 600; }
+.grille { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+.carte { background: #fff; border: 1px solid var(--bord); border-radius: 8px; padding: 1rem; }
+.carte h3 { margin-top: 0; text-transform: capitalize; }
+.bouton { background: var(--accent); color: #fff; border: 0; border-radius: 6px; padding: .5rem .9rem; cursor: pointer; }
+.bouton.secondaire { background: #fff; color: var(--accent); border: 1px solid var(--accent); }
+.champ { display: block; width: 100%; padding: .5rem; margin: .25rem 0 .75rem; border: 1px solid var(--bord); border-radius: 6px; font: inherit; }
+.etat-chargement { color: var(--discret); font-style: italic; }
+.etat-erreur { color: var(--erreur); border: 1px solid var(--erreur); border-radius: 6px; padding: .75rem; }
+.message-erreur { color: var(--erreur); font-size: .9rem; margin: -.5rem 0 .75rem; }
+.discret { color: var(--discret); font-size: .9rem; }
