@@ -1,45 +1,55 @@
 import { useEffect, useState } from "react";
-import { useOutletContext } from "react-router";
+import { useParams } from "react-router";
 import { API_URL } from "../constants";
-import BarreRecherche from "../components/BarreRecherche";
-import ListeArticles from "../components/ListeArticles";
 import EtatRequete from "../components/EtatRequete";
+import ListeCommentaires from "../components/ListeCommentaires";
+import CommentaireForm from "../components/CommentaireForm";
 
-export default function Articles() {
-  const { favoris, basculerFavori } = useOutletContext();
-  const [articles, setArticles] = useState([]);
+export default function Article() {
+  const { id } = useParams();
+  const [article, setArticle] = useState(null);
+  const [commentaires, setCommentaires] = useState([]);
   const [chargement, setChargement] = useState(true);
   const [erreur, setErreur] = useState(null);
-  const [recherche, setRecherche] = useState("");
 
   useEffect(() => {
     const controller = new AbortController();
     async function charger() {
+      setChargement(true);
+      setErreur(null);
       try {
-        const res = await fetch(`${API_URL}/posts?_limit=12`, { signal: controller.signal });
-        if (!res.ok) throw new Error(`Erreur ${res.status}`);
-        setArticles(await res.json());
+        const [rA, rC] = await Promise.all([
+          fetch(`${API_URL}/posts/${id}`, { signal: controller.signal }),
+          fetch(`${API_URL}/posts/${id}/comments`, { signal: controller.signal }),
+        ]);
+        if (!rA.ok || !rC.ok) throw new Error("Introuvable");
+        setArticle(await rA.json());
+        setCommentaires(await rC.json());
       } catch (e) {
-        if (e.name !== "AbortError") setErreur("Impossible de charger les articles.");
+        if (e.name !== "AbortError") setErreur("Article introuvable ou erreur réseau.");
       } finally {
         if (!controller.signal.aborted) setChargement(false);
       }
     }
     charger();
     return () => controller.abort();
-  }, []);
+  }, [id]);
 
-  const visibles = articles.filter((a) =>
-    a.title.toLowerCase().includes(recherche.toLowerCase())
-  );
+  function ajouter(commentaire) {
+    setCommentaires((prev) => [...prev, commentaire]);
+  }
 
   return (
-    <section>
-      <h1>Articles</h1>
-      <BarreRecherche valeur={recherche} onChange={setRecherche} />
-      <EtatRequete chargement={chargement} erreur={erreur}>
-        <ListeArticles articles={visibles} favoris={favoris} onBasculerFavori={basculerFavori} />
-      </EtatRequete>
-    </section>
+    <EtatRequete chargement={chargement} erreur={erreur}>
+      {article && (
+        <article>
+          <h1>{article.title}</h1>
+          <p>{article.body}</p>
+          <h2>Commentaires</h2>
+          <ListeCommentaires commentaires={commentaires} />
+          <CommentaireForm onAjouter={ajouter} />
+        </article>
+      )}
+    </EtatRequete>
   );
 }

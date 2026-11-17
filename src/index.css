@@ -1,34 +1,185 @@
-/* Feuille de style de départ : le projet évalue React, pas le CSS.
-   Tu peux l'utiliser telle quelle, la modifier, ou demander à une IA de réécrire tout le CSS
-   et de placer les classes (className) dans ton JSX : c'est la seule aide complète autorisée. */
 :root {
-  --fond: #f7f8fa;
-  --texte: #1f1f1f;
-  --discret: #666666;
-  --accent: #0b6e4f;
-  --bord: #dddddd;
-  --erreur: #b3261e;
+  --bleu: #0b2447;
+  --orange: #f07a00;
+  --fond: #f5f7fb;
+  --texte: #1c2333;
+  --bordure: #e2e6ef;
 }
-* { box-sizing: border-box; }
+
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  font-family: system-ui, Arial, sans-serif;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   background: var(--fond);
   color: var(--texte);
-  line-height: 1.6;
+  line-height: 1.5;
 }
-.conteneur { max-width: 960px; margin: 0 auto; padding: 1.5rem 1rem; }
-.barre-nav { background: #fff; border-bottom: 1px solid var(--bord); }
-.barre-nav .conteneur { display: flex; gap: 1.25rem; align-items: center; flex-wrap: wrap; }
-.barre-nav a { color: var(--texte); text-decoration: none; padding: .25rem 0; }
-.barre-nav a.active { color: var(--accent); border-bottom: 2px solid var(--accent); font-weight: 600; }
-.grille { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
-.carte { background: #fff; border: 1px solid var(--bord); border-radius: 8px; padding: 1rem; }
-.carte h3 { margin-top: 0; text-transform: capitalize; }
-.bouton { background: var(--accent); color: #fff; border: 0; border-radius: 6px; padding: .5rem .9rem; cursor: pointer; }
-.bouton.secondaire { background: #fff; color: var(--accent); border: 1px solid var(--accent); }
-.champ { display: block; width: 100%; padding: .5rem; margin: .25rem 0 .75rem; border: 1px solid var(--bord); border-radius: 6px; font: inherit; }
-.etat-chargement { color: var(--discret); font-style: italic; }
-.etat-erreur { color: var(--erreur); border: 1px solid var(--erreur); border-radius: 6px; padding: .75rem; }
-.message-erreur { color: var(--erreur); font-size: .9rem; margin: -.5rem 0 .75rem; }
-.discret { color: var(--discret); font-size: .9rem; }
+
+main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 3rem;
+}
+
+h1 {
+  color: var(--bleu);
+  margin-top: 0;
+}
+
+/* Barre de navigation */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 0.75rem 1.5rem;
+  background: #fff;
+  border-bottom: 3px solid var(--orange);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.logo {
+  height: 48px;
+  width: auto;
+  display: block;
+}
+
+.navbar nav {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.navbar nav a {
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  color: var(--bleu);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.navbar nav a:hover {
+  background: var(--fond);
+}
+
+.navbar nav a.active {
+  background: var(--bleu);
+  color: #fff;
+}
+
+/* Liens dans le contenu */
+main a {
+  color: var(--bleu);
+}
+
+main a:hover {
+  color: var(--orange);
+}
+
+/* Liste et cartes d'articles */
+.liste-articles {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+
+.carte {
+  background: #fff;
+  border: 1px solid var(--bordure);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  box-shadow: 0 1px 3px rgba(11, 36, 71, 0.06);
+}
+
+.carte h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.05rem;
+  text-transform: none;
+}
+
+.carte h3 a {
+  text-decoration: none;
+}
+
+.carte p {
+  margin: 0 0 1rem;
+  color: #4b5568;
+}
+
+/* Boutons */
+button {
+  cursor: pointer;
+  border: 1px solid var(--bleu);
+  background: #fff;
+  color: var(--bleu);
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  font: inherit;
+}
+
+button:hover {
+  background: var(--bleu);
+  color: #fff;
+}
+
+/* Champs et formulaires */
+input,
+textarea {
+  display: block;
+  width: 100%;
+  max-width: 500px;
+  margin-bottom: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--bordure);
+  border-radius: 8px;
+  font: inherit;
+  background: #fff;
+}
+
+input[type="search"] {
+  margin-bottom: 1.25rem;
+}
+
+textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+form {
+  margin-top: 1rem;
+}
+
+/* Commentaires */
+ul {
+  padding-left: 1.2rem;
+}
+
+/* Messages */
+.erreur {
+  color: #b42318;
+  background: #fef3f2;
+  border: 1px solid #fecdca;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+}
+
+.discret {
+  color: #6b7280;
+}
+
+/* Petits écrans */
+@media (max-width: 600px) {
+  .navbar {
+    padding: 0.75rem 1rem;
+  }
+
+  .logo {
+    height: 40px;
+  }
+}
