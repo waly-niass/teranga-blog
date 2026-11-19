@@ -3,6 +3,7 @@ import { NavLink, Link, Outlet } from "react-router";
 
 export default function LayoutPrincipal() {
   const [favoris, setFavoris] = useState([]);
+  const [connecte, setConnecte] = useState(false);
 
   function basculerFavori(article) {
     setFavoris((prev) =>
@@ -23,10 +24,11 @@ export default function LayoutPrincipal() {
           <NavLink to="/articles">Articles</NavLink>
           <NavLink to="/auteurs">Auteurs</NavLink>
           <NavLink to="/favoris">Favoris ({favoris.length})</NavLink>
+          <NavLink to="/mon-espace">Mon espace</NavLink>
         </nav>
       </header>
       <main>
-        <Outlet context={{ favoris, basculerFavori }} />
+        <Outlet context={{ favoris, basculerFavori, connecte, setConnecte }} />
       </main>
     </>
   );

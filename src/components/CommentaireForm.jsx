@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-// Formulaire de commentaire. Prop : onAjouter (fonction qui reçoit le nouveau commentaire).
+
 export default function CommentaireForm({ onAjouter }) {
   const [nom, setNom] = useState("");
   const [message, setMessage] = useState("");

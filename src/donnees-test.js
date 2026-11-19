@@ -1,5 +1,4 @@
-// Données de test pour les étapes 1 à 3 (avant de brancher l'API à l'étape 4).
-// Elles ont la même forme que celles de l'API : id, userId, title, body.
+
 export const articlesDeTest = [
   {
     id: 1,
