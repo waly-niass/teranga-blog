@@ -29,3 +29,6 @@ C'est la fonction de nettoyage. React l'exécute avant de relancer l'effet (quan
 
 ### 3. Pourquoi `id` est une chaîne avec `useParams`
 Une URL n'est que du texte : dans /articles/3, le 3 est la chaîne "3". useParams renvoie toujours des chaînes. Comparer "3" === 3 donne false. Il faut donc convertir la valeur avant de la comparer à un id numérique, par exemple Number(id) === article.id.
+
+### Demo: 
+https://teranga-blog-inky.vercel.app/
